@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>测试</title>
+</head>
+<body>
+<button class="add">发送</button>
+<a href="/api/login/out">退出登陆</a>
+<input id="file" type="file" name="file">
+<script src="./js/jquery-3.2.1.min.js"></script>
+<script>
+
+    $('#file').on('change',function () {
+        var file=document.getElementById("file").files[0];
+        var formData=new FormData();
+        formData.append('file',file);
+        $.ajax({
+            url:'/api/file/add',
+            type:'post',
+            dataType: 'json',
+            contentType:false,//ajax上传图片需要添加
+            processData:false,//ajax上传图片需要添加
+            data:formData ,
+            success:function(result){
+                if(result.success==false){
+                }else{
+                    // window.location.href='/resume';
+                }
+            },
+            error: function(err) {
+                console.log(" error")
+            }
+        });
+    })
+
+    // var user={};
+    // user.username="53454";
+    // user.nickname="发生的";
+    // user.sex="呢";
+    // user.education="fdfsfd";
+    // var res=null;
+    // $('.add').on('click',function () {
+    //     $.ajax({
+    //         url: "/api/user/update",
+    //         type: "post",
+    //         contentType: "application/json; charset=utf-8",
+    //         data: JSON.stringify(user) ,
+    //         success: function (result) {
+    //           res=result;
+    //         }
+    //     });
+    // })
+
+
+    // var login={};
+    // login.username="53454";
+    // login.password="123";
+    // var res=null;
+    // $('.add').on('click',function () {
+    //     $.ajax({
+    //         url: "/api/register/add",
+    //         type: "post",
+    //         contentType: "application/json; charset=utf-8",
+    //         data: JSON.stringify(login) ,
+    //         success: function (result) {
+    //           res=result;
+    //         }
+    //     });
+    // })
+
+</script>
+</body>
+</html>
