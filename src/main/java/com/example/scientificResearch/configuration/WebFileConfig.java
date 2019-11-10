@@ -7,7 +7,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 public class WebFileConfig  extends WebMvcConfigurerAdapter {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry){
-        registry.addResourceHandler("/public/thesis/**").addResourceLocations("file:G:\\thesis\\");
+        registry.addResourceHandler("/public/thesis/**").addResourceLocations("file:G:\\scientific\\thesis\\");
+        registry.addResourceHandler("/public/img/**").addResourceLocations("file:G:\\scientific\\img\\");
         super.addResourceHandlers(registry);
     }
 }

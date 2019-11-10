@@ -7,6 +7,7 @@ import com.example.scientificResearch.model.ResultJson;
 import com.example.scientificResearch.model.User;
 import com.example.scientificResearch.utils.MD5Util;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,6 +22,13 @@ import javax.validation.Valid;
 public class RegisterController {
     @Autowired
     LoginMapper loginMapper;
+
+    @Value("${location.imgPath}")
+    private String locationImgPath;
+
+    @Value("${userHead.defaultPath}")
+    private String userHeadDefaultPath;
+
 
     @Autowired
     UserMapper userMapper;
@@ -38,6 +46,9 @@ public class RegisterController {
                     user.setUsername(login.getUsername());
                     user.setNickname(login.getUsername());
                     user.setEducation("硕士");
+                    user.setCollege("信息学院");
+                    user.setSex("男");
+                    user.setHeadIcon(userHeadDefaultPath);
                     userMapper.insert(user);
                     return new ResultJson(true,"注册成功",null);
                 }else {

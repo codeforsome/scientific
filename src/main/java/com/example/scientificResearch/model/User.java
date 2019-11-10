@@ -10,8 +10,8 @@ public class User {
     private BigInteger id;
     private String username;
 
-    @NotBlank(message = "昵称不能为空")
-    @Length(min = 1, max = 10, message = "昵称账号长度必须在 {min} - {max} 之间")
+    @NotBlank(message = "姓名不能为空")
+    @Length(min = 1, max = 10, message = "姓名长度必须在 {min} - {max} 之间")
     private String nickname;
 
     @NotBlank(message = "性别不能为空")
@@ -23,6 +23,36 @@ public class User {
     private String education;
 
     private Date createDate;
+
+    private String headIcon;
+
+    private String college;
+
+    private int hot;
+
+    public int getHot() {
+        return hot;
+    }
+
+    public void setHot(int hot) {
+        this.hot = hot;
+    }
+
+    public String getCollege() {
+        return college;
+    }
+
+    public void setCollege(String college) {
+        this.college = college;
+    }
+
+    public String getHeadIcon() {
+        return headIcon;
+    }
+
+    public void setHeadIcon(String headIcon) {
+        this.headIcon = headIcon;
+    }
 
     public BigInteger getId() {
         return id;

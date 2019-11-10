@@ -1,6 +1,7 @@
 package com.example.scientificResearch.controller;
 
 import com.example.scientificResearch.mapper.LoginMapper;
+import com.example.scientificResearch.mapper.UserMapper;
 import com.example.scientificResearch.model.Login;
 import com.example.scientificResearch.model.ResultJson;
 import com.example.scientificResearch.utils.MD5Util;
@@ -14,12 +15,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/api/login")
 public class LoginController {
     @Autowired
     LoginMapper loginMapper;
+
+    @Autowired
+    UserMapper userMapper;
 
     private final  String PWS="huangmanjin";
 
@@ -34,8 +40,13 @@ public class LoginController {
                 if(result!=null){
                     request.getSession().setAttribute("username",result.getUsername());
                     request.getSession().setAttribute("userType",result.getType());
+                    request.getSession().setAttribute("userId",userMapper.getUserByUsername(result.getUsername()).getId());
                     String userToken=   MD5Util.setEncode(result.getUsername()+PWS);
-                    return new ResultJson(true,"登陆成功",userToken);
+                    Map map=new HashMap();
+                    map.put("userToken",userToken);
+                    map.put("userType",result.getType());
+                    map.put("user",userMapper.getUserByUsername(result.getUsername()));
+                    return new ResultJson(true,"登陆成功",map);
                 }else {
                     return new ResultJson(false,"账号或者密码错误",null);
                 }
