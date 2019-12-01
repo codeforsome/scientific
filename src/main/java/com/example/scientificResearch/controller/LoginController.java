@@ -4,6 +4,7 @@ import com.example.scientificResearch.mapper.LoginMapper;
 import com.example.scientificResearch.mapper.UserMapper;
 import com.example.scientificResearch.model.Login;
 import com.example.scientificResearch.model.ResultJson;
+import com.example.scientificResearch.model.User;
 import com.example.scientificResearch.utils.MD5Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -38,13 +39,17 @@ public class LoginController {
                 String password=  MD5Util.setEncode(login.getPassword());
                 Login   result=loginMapper.existLoginInfo(login.getUsername(),password);
                 if(result!=null){
+                    User user=userMapper.getUserByUsername(result.getUsername());
+                    if(user.getStatus()==0){
+                        return new ResultJson(false,"该用户被禁止登陆，请找管理员！",null);
+                    }
                     request.getSession().setAttribute("username",result.getUsername());
-                    request.getSession().setAttribute("userType",result.getType());
-                    request.getSession().setAttribute("userId",userMapper.getUserByUsername(result.getUsername()).getId());
+                    request.getSession().setAttribute("userType",user.getType());
+                    request.getSession().setAttribute("userId",user.getId());
                     String userToken=   MD5Util.setEncode(result.getUsername()+PWS);
                     Map map=new HashMap();
                     map.put("userToken",userToken);
-                    map.put("userType",result.getType());
+                    map.put("userType",user.getType());
                     map.put("user",userMapper.getUserByUsername(result.getUsername()));
                     return new ResultJson(true,"登陆成功",map);
                 }else {

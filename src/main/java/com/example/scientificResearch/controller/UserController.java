@@ -1,6 +1,8 @@
 package com.example.scientificResearch.controller;
 
+import com.example.scientificResearch.mapper.LoginMapper;
 import com.example.scientificResearch.mapper.UserMapper;
+import com.example.scientificResearch.model.Login;
 import com.example.scientificResearch.model.ResultJson;
 import com.example.scientificResearch.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequestMapping("/api/user")
@@ -18,6 +22,9 @@ public class UserController {
 
     @Autowired
     UserMapper userMapper;
+
+    @Autowired
+    LoginMapper loginMapper;
 
     @ResponseBody
     @PostMapping("/update")
@@ -41,10 +48,34 @@ public class UserController {
     }
 
     @ResponseBody
+    @GetMapping("/search")
+    public ResultJson searchUser(@RequestParam String type,@RequestParam String search){
+        System.out.println("333333333333333333333");
+        if(type==null || search==null){
+            return  new ResultJson(false,"失败",null);
+        }else {
+
+            return  new ResultJson(true,"成功",userMapper.searchUser("%"+search+"%"));
+        }
+    }
+
+    @ResponseBody
     @GetMapping("/get")
     public ResultJson getUser(HttpServletRequest request){
             String username=(String) request.getSession().getAttribute("username");
             return new ResultJson(true,"个人信息",userMapper.getUserByUsername(username));
+    }
+
+    @ResponseBody
+    @GetMapping("/professor/get/all")
+    public ResultJson getUserTypeAllProfessor(){
+        List<Login> loginList=loginMapper.getAllUserTypeProfessor();
+        List<User> userList=new ArrayList<>();
+        for(int i=0;i<loginList.size();i++){
+           User user=  userMapper.getUserByUsername(loginList.get(i).getUsername());
+           userList.add(user);
+        }
+        return new ResultJson(true,"所有的专家用户",userList);
     }
 
     @ResponseBody

@@ -19,7 +19,6 @@ public class Login {
     @Length(min = 3, max = 10, message = "密码长度必须在 {min} - {max} 之间")
     private String password;
 
-    private  int type;
 
     public BigInteger getId() {
         return id;
@@ -45,11 +44,5 @@ public class Login {
         this.password = password;
     }
 
-    public int getType() {
-        return type;
-    }
 
-    public void setType(int type) {
-        this.type = type;
-    }
 }

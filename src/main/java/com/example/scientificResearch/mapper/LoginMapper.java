@@ -1,11 +1,10 @@
 package com.example.scientificResearch.mapper;
 
 import com.example.scientificResearch.model.Login;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 @Mapper
@@ -21,4 +20,13 @@ public interface LoginMapper {
     Boolean insert(@Param("username")String username, @Param("password")String password);
 
 
+    @Select("select * from login where  type=2 ")
+    List<Login> getAllUserTypeProfessor();
+
+    @Update("update login set password=#{password} " +
+            "where username=#{username}")
+    Boolean updatePassword(@Param("username")String username, @Param("password")String password);
+
+    @Delete("delete  from login where username=#{username}")
+    Boolean deleteUserByUsername(String username);
 }

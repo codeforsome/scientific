@@ -23,9 +23,24 @@ public interface ItemMapper {
     @Select("select * from items order by create_date desc limit #{offset},#{rows}")
     List<Item> getItemNew(@Param("offset")int offset, @Param("rows")int rows);
 
-    @Select("select * from items where author_id=#{id}")
+    @Select("select * from items where author_id=#{id}  order by create_date desc")
     List<Item> getItemByAuthorId(@Param("id") BigInteger id);
+
+
 
     @Select("select * from items where id=#{id}")
    Item getItemById(@Param("id") BigInteger id);
+
+    @Select("select count(id) from items")
+    int getItemsCount();
+
+    @Select("select * from items where title like #{title}")
+    List<Item> searchItem(String title);
+
+    @Delete("delete  from items where author_id=#{authorId}")
+    Boolean deleteItemByAuthorId(BigInteger authorId);
+
+    @Delete("delete  from items where id=#{id}")
+    Boolean deleteItemById(BigInteger id);
+
 }

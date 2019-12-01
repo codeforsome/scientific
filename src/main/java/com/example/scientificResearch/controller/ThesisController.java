@@ -62,6 +62,18 @@ public class ThesisController {
     }
 
     @ResponseBody
+    @GetMapping("/delete")
+    public ResultJson deleteThesis(@RequestParam  BigInteger id){
+        if(thesisMapper.deleteThesisById(id)){
+            return new ResultJson(true,"成功",null);
+
+        }else {
+            return new ResultJson(false,"失败",null);
+
+        }
+    }
+
+    @ResponseBody
     @GetMapping("/get/{id}")
     public ResultJson getThesisByThesisId(@PathVariable BigInteger id,
                                           HttpServletRequest request){
@@ -78,11 +90,21 @@ public class ThesisController {
         return new ResultJson(true,"论文信息",thesis);
     }
 
+    @ResponseBody
+    @GetMapping("/search")
+    public ResultJson searchThesis(@RequestParam String type,@RequestParam String search){
+        if(type==null || search==null){
+            return  new ResultJson(false,"失败",null);
+        }else {
+
+            return  new ResultJson(true,"成功",thesisMapper.searchThesis("%"+search+"%"));
+        }
+    }
 
     @ResponseBody
     @GetMapping("/get/hot")
     public ResultJson getThesisByThesisHot(@RequestParam(value="currentPage",required = false,defaultValue = "0") Integer currentPage,
-                                           @RequestParam(value="pageSize",required = false,defaultValue = "5") Integer pageSize){
+                                           @RequestParam(value="pageSize",required = false,defaultValue = "4") Integer pageSize){
         List<Thesis> thesisList=thesisMapper.getThesisHot(currentPage,pageSize);
         return new ResultJson(true,"论文信息",thesisList);
     }

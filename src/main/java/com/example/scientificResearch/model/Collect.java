@@ -5,7 +5,7 @@ import java.math.BigInteger;
 public class Collect {
     private BigInteger id;
     private BigInteger thesisId;
-    private BigInteger collectUsreId;
+    private BigInteger collectUserId;
 
     public BigInteger getId() {
         return id;
@@ -23,11 +23,11 @@ public class Collect {
         this.thesisId = thesisId;
     }
 
-    public BigInteger getCollectUsreId() {
-        return collectUsreId;
+    public BigInteger getCollectUserId() {
+        return collectUserId;
     }
 
-    public void setCollectUsreId(BigInteger collectUsreId) {
-        this.collectUsreId = collectUsreId;
+    public void setCollectUserId(BigInteger collectUserId) {
+        this.collectUserId = collectUserId;
     }
 }
