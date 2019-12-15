@@ -50,7 +50,6 @@ public class UserController {
     @ResponseBody
     @GetMapping("/search")
     public ResultJson searchUser(@RequestParam String type,@RequestParam String search){
-        System.out.println("333333333333333333333");
         if(type==null || search==null){
             return  new ResultJson(false,"失败",null);
         }else {
@@ -69,7 +68,7 @@ public class UserController {
     @ResponseBody
     @GetMapping("/professor/get/all")
     public ResultJson getUserTypeAllProfessor(){
-        List<Login> loginList=loginMapper.getAllUserTypeProfessor();
+        List<User> loginList=userMapper.getAllUserTypeProfessor();
         List<User> userList=new ArrayList<>();
         for(int i=0;i<loginList.size();i++){
            User user=  userMapper.getUserByUsername(loginList.get(i).getUsername());

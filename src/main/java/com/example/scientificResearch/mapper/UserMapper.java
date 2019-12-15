@@ -31,10 +31,14 @@ public interface UserMapper {
             "where id=#{id}")
     Boolean updateTypeById( User user);
 
+    @Select("select * from user where  type=2 ")
+    List<User> getAllUserTypeProfessor();
+
+
     @Select("select * from user where username=#{username}")
     User getUserByUsername(String username);
 
-    @Select("select * from user where username like #{username} or nickname like #{username}")
+    @Select("select * from user where  nickname like #{username}")
     List<User> searchUser(String username);
 
     @Select("select * from user where type!=3  order by create_date desc limit #{offset},#{rows}")

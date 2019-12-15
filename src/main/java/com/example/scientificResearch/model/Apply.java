@@ -7,11 +7,38 @@ public class Apply {
     private BigInteger id;
     private BigInteger applyId;
     private BigInteger professorId;
+    private Date professorDate;
+    private Date applyDate;
+    private Date checkDate;
     private  BigInteger itemId;
     private  int apply;
     private String filePath;
     private Date date;
     private int checkStatus;
+
+    public Date getProfessorDate() {
+        return professorDate;
+    }
+
+    public void setProfessorDate(Date professorDate) {
+        this.professorDate = professorDate;
+    }
+
+    public Date getApplyDate() {
+        return applyDate;
+    }
+
+    public void setApplyDate(Date applyDate) {
+        this.applyDate = applyDate;
+    }
+
+    public Date getCheckDate() {
+        return checkDate;
+    }
+
+    public void setCheckDate(Date checkDate) {
+        this.checkDate = checkDate;
+    }
 
     public int getCheckStatus() {
         return checkStatus;

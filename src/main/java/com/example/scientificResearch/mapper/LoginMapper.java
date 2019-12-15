@@ -20,8 +20,6 @@ public interface LoginMapper {
     Boolean insert(@Param("username")String username, @Param("password")String password);
 
 
-    @Select("select * from login where  type=2 ")
-    List<Login> getAllUserTypeProfessor();
 
     @Update("update login set password=#{password} " +
             "where username=#{username}")

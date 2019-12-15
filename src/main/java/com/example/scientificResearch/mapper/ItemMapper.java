@@ -27,7 +27,6 @@ public interface ItemMapper {
     List<Item> getItemByAuthorId(@Param("id") BigInteger id);
 
 
-
     @Select("select * from items where id=#{id}")
    Item getItemById(@Param("id") BigInteger id);
 

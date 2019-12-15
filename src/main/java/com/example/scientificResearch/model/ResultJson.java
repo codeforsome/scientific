@@ -11,6 +11,12 @@ public class ResultJson {
         this.msg = msg;
     }
 
+    public ResultJson(Boolean success, String msg) {
+        this.data = null;
+        this.success = success;
+        this.msg = msg;
+    }
+
     public Object getData() {
         return data;
     }

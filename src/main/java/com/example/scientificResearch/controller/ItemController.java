@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -92,6 +93,7 @@ public class ItemController {
     @ResponseBody
     @PostMapping("/scientific/update/apply")
     public  ResultJson updateApply(@RequestBody Apply apply){
+        apply.setApplyDate(new Date());
         if(applyMapper.updateApplyStatus(apply)){
             return  new ResultJson(true,"更新申请成功",null);
         }else {
@@ -102,7 +104,7 @@ public class ItemController {
     @ResponseBody
     @PostMapping("/professor/update/check")
     public  ResultJson updateApplyCheck(@RequestBody Apply apply){
-
+        apply.setCheckDate(new Date());
         if(applyMapper.updateProfessorCheck(apply)){
             return  new ResultJson(true,"更新申请成功",null);
         }else {
@@ -113,6 +115,7 @@ public class ItemController {
     @ResponseBody
     @PostMapping("/scientific/update/professor")
     public  ResultJson updateProfessor(@RequestBody Apply apply){
+        apply.setProfessorDate(new Date());
         if(applyMapper.updateProfessor(apply)){
             return  new ResultJson(true,"更新成功",null);
         }else {
@@ -121,8 +124,19 @@ public class ItemController {
     }
     @ResponseBody
     @GetMapping("/get/userid/{id}")
-    public  ResultJson getUserItem( @PathVariable BigInteger id){
+    public  ResultJson getUserItem( @PathVariable BigInteger id,HttpServletRequest request){
         return  new ResultJson(true,"我发布的题目",itemMapper.getItemByAuthorId(id));
+    }
+
+    @ResponseBody
+    @GetMapping("/get/applyUserId/{id}")
+    public  ResultJson getUserItemById( @PathVariable BigInteger id){
+        List<Apply> applyList=applyMapper.getItemApplyByUserId(id);
+        List<Item> itemList=new ArrayList<>();
+        for(int i=0;i<applyList.size();i++){
+            itemList.add(itemMapper.getItemById(applyList.get(i).getItemId()));
+        }
+        return  new ResultJson(true,"我申请的题目",itemList);
     }
 
     @ResponseBody
@@ -178,9 +192,9 @@ public class ItemController {
 
     @ResponseBody
     @GetMapping("/apply/get/{id}")
-    public  ResultJson getItemApplyByItemId( @PathVariable BigInteger id,HttpServletRequest request){
-        BigInteger userId=(BigInteger)request.getSession().getAttribute("userId");
-        List<Apply> list=applyMapper.getItemApplyByItemIdAndProfeesId(id,userId);
+    public  ResultJson getItemApplyByItemId( @PathVariable BigInteger id){
+//        BigInteger userId=(BigInteger)request.getSession().getAttribute("userId");
+        List<Apply> list=applyMapper.getItemApplyByItemId(id);
         return  new ResultJson(true,"项目所有申请人",list);
     }
 
@@ -197,6 +211,16 @@ public class ItemController {
             }
         }
         return  new ResultJson(true,"该用户申请该科研项目的状态",status);
+    }
+
+    @ResponseBody
+    @GetMapping("/apply/user/get/{id}")
+    public  ResultJson getItemApply( @PathVariable BigInteger id,HttpServletRequest request){
+        BigInteger userId=(BigInteger) request.getSession().getAttribute("userId");
+        if(userId==null){
+            return  new ResultJson(false,"错误请求");
+        }
+        return  new ResultJson(true,"该用户申请该科研项目的状态",applyMapper.getItemApply(id,userId));
     }
 
 }
